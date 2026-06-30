@@ -1,0 +1,6 @@
+{
+  "name": "AIIT Academy Admission Form",
+  "description": "Professional admission form and student registration portal for AIIT - Advanced Institute of Information Technology with admin verification dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

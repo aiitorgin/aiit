@@ -33,6 +33,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   // Remarks state
   const [adminNotes, setAdminNotes] = useState('');
+  const [showPdfGuide, setShowPdfGuide] = useState(false);
 
   // Clear or re-seed mockup db
   const handleResetToMock = () => {
@@ -381,7 +382,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   return (
                     <div
                       key={sub.id}
-                      onClick={() => setSelectedSubId(sub.id)}
+                      onClick={() => {
+                        setSelectedSubId(sub.id);
+                        setShowPdfGuide(false);
+                      }}
                       className={`p-4 flex items-center justify-between gap-4 cursor-pointer transition-all duration-200
                         ${isSelected 
                           ? 'bg-brand-blue-50/40 border-l-4 border-brand-blue-800' 
@@ -615,6 +619,80 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </div>
 
                 </div>
+              </div>
+
+              {/* DOCUMENT UTILITIES (No Print) */}
+              <div className="no-print bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Printer className="text-brand-blue-800 animate-pulse" size={16} />
+                    <h4 className="font-display font-bold text-xs text-brand-blue-900 uppercase tracking-wider">
+                      Dossier PDF & Print Utilities
+                    </h4>
+                  </div>
+                  <span className="text-[9px] bg-brand-blue-100 text-brand-blue-800 font-extrabold uppercase px-2 py-0.5 rounded-sm">
+                    A4 Optimized
+                  </span>
+                </div>
+
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Export the active student’s complete registration summary as an official academic document. Use the professionally formatted docket below to print physical copies or archive files as a PDF.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <button
+                    onClick={() => {
+                      setShowPdfGuide(false);
+                      window.print();
+                    }}
+                    className="inline-flex items-center justify-center gap-2 py-2 px-4 text-xs font-bold text-white bg-brand-blue-800 hover:bg-brand-blue-700 active:bg-brand-blue-950 rounded-lg transition-all shadow-xs cursor-pointer select-none border-b-2 border-brand-blue-900 hover:translate-y-[1px] active:translate-y-[2px]"
+                  >
+                    <Printer size={14} />
+                    Print Summary Receipt
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setShowPdfGuide(true);
+                      setTimeout(() => {
+                        window.print();
+                      }, 400);
+                    }}
+                    className="inline-flex items-center justify-center gap-2 py-2 px-4 text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg transition-all shadow-xs cursor-pointer select-none hover:translate-y-[1px]"
+                  >
+                    <Download size={14} className="text-amber-600" />
+                    Save as PDF File
+                  </button>
+                </div>
+
+                <AnimatePresence>
+                  {showPdfGuide && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="bg-amber-50/70 border border-amber-200/60 rounded-lg p-3 text-[11px] text-amber-800 leading-relaxed space-y-1.5 mt-1">
+                        <p className="font-extrabold uppercase tracking-wide flex items-center gap-1 text-[10px]">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping" />
+                          How to Save as PDF:
+                        </p>
+                        <ol className="list-decimal pl-4 space-y-1 font-medium">
+                          <li>In the print destination dropdown, select <strong className="font-bold">"Save as PDF"</strong> or <strong className="font-bold">"Print to PDF"</strong>.</li>
+                          <li>Ensure headers/footers are unchecked for a clean, brand-compliant document.</li>
+                          <li>Click <strong className="font-bold">Save</strong> and choose your local destination.</li>
+                        </ol>
+                        <button 
+                          onClick={() => setShowPdfGuide(false)} 
+                          className="text-[10px] text-brand-blue-800 font-bold hover:underline block mt-1"
+                        >
+                          Dismiss guide
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* DOCKET CARD: THIS CARD WILL BE HIGHLIGHTED AND REFORMATTED IN PRINT MEDIA */}

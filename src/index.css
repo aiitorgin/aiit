@@ -47,4 +47,28 @@
     background-color: white !important;
     color: black !important;
   }
+  
+  /* Flatten grid container and force columns to take 100% width on print sheets */
+  .grid, [class*="grid-cols-"] {
+    display: block !important;
+  }
+  [class*="col-span-"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Reset document container body spacing for professional margins */
+  body, html {
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Ensure clean page rendering */
+  .shadow-lg, .shadow-md, .shadow-sm, .shadow-xs {
+    box-shadow: none !important;
+  }
+  .border {
+    border-color: #cbd5e1 !important;
+  }
 }
